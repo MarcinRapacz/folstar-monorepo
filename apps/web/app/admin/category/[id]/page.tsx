@@ -1,9 +1,9 @@
-import CloudinaryUploader from "@/components/CloudinaryUploader";
 import CategoryForm from "@/components/forms/CategoryForm";
 import { CategoryService } from "@/services/CatogoryService";
 import { redirect } from "next/navigation";
 
 import CategoryPreview from "@/components/images/CategoryPreview";
+import MediaList from "@/components/media/MediaList";
 
 interface CategoryDetailsPage {
   params: {
@@ -23,8 +23,11 @@ export default async function CategoryDetailsPage({
   return (
     <>
       <CategoryForm mode="update" category={category} />
-      <CloudinaryUploader category={category} />
-      <CategoryPreview media={category.media} />
+      <div className="flex flex-row">
+        <CategoryPreview media={category.media} />
+        {/* @ts-expect-error Server Component */}
+        <MediaList />
+      </div>
     </>
   );
 }

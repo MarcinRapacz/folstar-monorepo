@@ -138,11 +138,11 @@ model Category {
 
 model Media {
   id               String     @id @default(uuid())
-  assetId          String?
+  assetId          String
   height           String
   originalFilename String
-  thumbnailUrl     String?
-  url              String?
+  thumbnailUrl     String
+  url              String
   width            String
   products         Product[]
   categories       Category[]

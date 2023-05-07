@@ -1,9 +1,9 @@
 "use client";
 
 import { MediaService } from "@/services/MediaService";
-import { Category } from "@prisma/client";
 import { CldUploadButton } from "next-cloudinary";
 import { useRouter } from "next/navigation";
+import { MdOutlineCloudUpload } from "react-icons/md";
 
 export interface CloudinaryImage {
   event: string;
@@ -48,17 +48,14 @@ export interface CloudinaryWidget {
   update: (t: unknown) => void;
 }
 
-interface CloudinaryUploaderProps {
-  category: Category;
-}
-
-export default function CloudinaryUploader({
-  category,
-}: CloudinaryUploaderProps) {
+export default function CloudinaryUploader() {
   const router = useRouter();
 
-  const onUpload = (result: CloudinaryImage, widget: CloudinaryWidget) => {
-    MediaService.create({
+  const onUpload = async (
+    result: CloudinaryImage,
+    _widget: CloudinaryWidget
+  ) => {
+    await MediaService.create({
       assetId: result.info.asset_id,
       height: result.info.height.toString(),
       originalFilename: result.info.original_filename,
@@ -67,14 +64,18 @@ export default function CloudinaryUploader({
       width: result.info.width.toString(),
     });
 
-    widget.close({ quiet: true });
-    router.push("/category");
+    router.refresh();
   };
 
   return (
     <CldUploadButton
       uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET}
       onUpload={onUpload}
-    />
+    >
+      <span className="flex items-center gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        <MdOutlineCloudUpload size={24} />
+        Dodaj nowe zdjęcie
+      </span>
+    </CldUploadButton>
   );
 }

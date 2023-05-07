@@ -24,7 +24,7 @@ export default function AdminNavigation() {
       href: "/admin/category",
     },
     {
-      label: "Media",
+      label: "Zdjęcia",
       href: "/admin/media",
     },
   ];
